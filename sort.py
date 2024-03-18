@@ -74,6 +74,19 @@ def ReadInSimulationData():
   FileIn.close()
   return Data
 
+
+def SortQueue(BuyerQ):
+# Iterate over each element in the queue
+  for i in range(1, len(BuyerQ)):
+    current_buyer = BuyerQ[i]
+    j = i - 1
+    while j >= 0 and BuyerQ[j].ItemsInBasket > current_buyer.ItemsInBasket:
+        BuyerQ[j + 1] = BuyerQ[j]
+        j -= 1
+    BuyerQ[j + 1] = current_buyer
+  return BuyerQ
+  
+        
 def OutputHeading():
   print()
   print("Time Buyer  | Start Till Serve | Till Time Time Time |      Queue")
@@ -87,27 +100,11 @@ def BuyerJoinsQ(Data, BuyerQ, QLength, BuyerNumber):
   BuyerQ[QLength].ItemsInBasket  = ItemsInBasket
   QLength += 1
 
-  #TODO
-  temp = []
-  for node in BuyerQ:
-    node_I = node.ItemsInBasket
-    for index, item in enumerate(temp):
-      if item.ItemsInBasket < node_I:
-        pass
-      else:
-        temp2 = temp[index]
-        temp[index] = node
-        for x in range(index+1, len(temp)+1, -1):
-          val = temp[x]
-          temp[x+1] = val  
-    BuyerQ = temp
-    print(BuyerQ)
-
-
-
-
-
-
+  BuyerQ = SortQueue(BuyerQ)
+  #temp
+  for item in BuyerQ:
+    print(item.ItemsInBasket)
+    
   return BuyerQ, QLength
 
 def BuyerArrives(Data, BuyerQ, QLength, BuyerNumber, NoOfTills, Stats):
